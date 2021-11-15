@@ -44,6 +44,12 @@ pipeline {
     post {
         always {
             echo 'This will always run'
+            deleteDir() /* clean up our workspace */
+
+            mail to: 'dmikhailov@me.com',
+                         subject: "Finished Pipeline: ${currentBuild.fullDisplayName}",
+                         body: "The job is done with ${env.BUILD_URL}"
+
         }
         success {
             echo 'This will run only if successful'
