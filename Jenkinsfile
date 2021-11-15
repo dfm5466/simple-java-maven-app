@@ -20,6 +20,7 @@ pipeline {
                     }
                     post {
                         always {
+                            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                             junit 'target/surefire-reports/*.xml'
                         }
                     }
@@ -33,7 +34,7 @@ pipeline {
                      steps {
                         timeout(time: 3, unit: 'MINUTES') {
                             retry(5) {
-                                sh './jenkins/scripts/deliver.sh'
+                                sh './jenkins/scripts/sample.sh'
                             }
                         }
                      }
