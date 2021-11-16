@@ -57,7 +57,7 @@ pipeline {
             deleteDir() /* clean up our workspace */
 
             emailext body: 'SUCCESS ' + env.BUILD_TAG,
-                subject: 'Jenkinks ' + docker.Image.id,
+                subject: 'Jenkinks CICD',
                 to: 'dmikhailov@me.com'
 
         }
