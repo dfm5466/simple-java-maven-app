@@ -37,12 +37,15 @@ pipeline {
                                 sh './jenkins/scripts/sample.sh'
                             }
                         }
+                        script {
+                            if (env.BRANCH_NAME == 'master') {
+                                        echo 'I only execute on the master branch'
+                            } else {
+                                echo 'The current branch is ' + env.BRANCH_NAME
+                            }
+                        }
 
-                        if (env.BRANCH_NAME == 'master') {
-                                    echo 'I only execute on the master branch'
-                                } else {
-                                    echo 'The current branch is ' + env.BRANCH_NAME
-                                }
+
 
                      }
         }
