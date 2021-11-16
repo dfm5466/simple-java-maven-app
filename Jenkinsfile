@@ -37,6 +37,13 @@ pipeline {
                                 sh './jenkins/scripts/sample.sh'
                             }
                         }
+
+                        if (env.BRANCH_NAME == 'master') {
+                                    echo 'I only execute on the master branch'
+                                } else {
+                                    echo 'The current branch is ' + env.BRANCH_NAME
+                                }
+
                      }
         }
 
@@ -46,9 +53,9 @@ pipeline {
             echo 'This will always run'
             deleteDir() /* clean up our workspace */
 
-            mail to: 'dmikhailov@me.com',
-                         subject: "Finished Pipeline: ${currentBuild.fullDisplayName}",
-                         body: "The job is done with ${env.BUILD_URL}"
+            emailext body: 'SUCCESS ' + env.BUILD_TAG,
+                subject: 'Jenkinks ' + docker.Image.id,
+                to: 'dmikhailov@me.com'
 
         }
         success {
