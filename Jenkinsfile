@@ -30,13 +30,36 @@ pipeline {
                         sh './jenkins/scripts/deliver.sh'
                     }
          }
+        stage('Deploy') {
+                     steps {
+                        timeout(time: 3, unit: 'MINUTES') {
+                            retry(5) {
+                                sh './jenkins/scripts/sample.sh'
+                            }
+                        }
+                        script {
+                            if (env.BRANCH_NAME == 'master') {
+                                        echo 'I only execute on the master branch'
+                            } else {
+                                echo 'The current branch is ' + env.BRANCH_NAME
+                            }
+                        }
 
+
+
+                     }
+        }
 
     }
     post {
         always {
             echo 'This will always run'
             deleteDir() /* clean up our workspace */
+
+            emailext body: 'SUCCESS ' + env.BUILD_TAG,
+                subject: 'Jenkinks ' + docker.Image.id,
+                to: 'dmikhailov@me.com'
+
         }
         success {
             echo 'This will run only if successful'
